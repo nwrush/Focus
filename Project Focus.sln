@@ -1,0 +1,26 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30723.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Project_Focus", "Project Focus\Project_Focus\Project_Focus.csproj", "{B266538D-0834-44B6-A242-5D73B91129F4}"
+EndProject
+Project("{96E2B04D-8817-42C6-938A-82C39BA4D311}") = "Project_FocusContent", "Project Focus\Project_FocusContent\Project_FocusContent.contentproj", "{A4C1D1CD-B025-44AC-9BF0-D916A339F5A7}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x86 = Debug|x86
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B266538D-0834-44B6-A242-5D73B91129F4}.Debug|x86.ActiveCfg = Debug|x86
+		{B266538D-0834-44B6-A242-5D73B91129F4}.Debug|x86.Build.0 = Debug|x86
+		{B266538D-0834-44B6-A242-5D73B91129F4}.Release|x86.ActiveCfg = Release|x86
+		{B266538D-0834-44B6-A242-5D73B91129F4}.Release|x86.Build.0 = Release|x86
+		{A4C1D1CD-B025-44AC-9BF0-D916A339F5A7}.Debug|x86.ActiveCfg = Debug|x86
+		{A4C1D1CD-B025-44AC-9BF0-D916A339F5A7}.Release|x86.ActiveCfg = Release|x86
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
