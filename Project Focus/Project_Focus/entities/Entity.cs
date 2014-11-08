@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Focus.globals;
 
 namespace Focus.entities
 {
@@ -16,30 +17,33 @@ namespace Focus.entities
         //draw the entity to the screen
         bool isDead;
 
-        public Entity()
+        public Entity(string contentName)
         {
             isDead = false;
+            LoadContent(contentName);
         }
-        public Entity(Vector2 pos, Vector2 speed)
-            : this()
+        public Entity(Vector2 pos, Vector2 speed, string contentName)
+            : this(contentName)
         {
             this.position = pos;
             this.speed = speed;
         }
 
-        public virtual void LoadContent(string contentName)
+        protected virtual void LoadContent(string contentName)
         {
-            
+            Microsoft.Xna.Framework.Content.ContentManager cm = GV.contentManager;
+            this.texture = cm.Load<Texture2D>(contentName);
         }
 
         public virtual void Update()
         {
-
+            this.position += this.speed;
+            //implement bounce?
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)
         {
-
+            spriteBatch.Draw(this.texture, this.position, null, Color.White);
         }
 
         //Accessors
