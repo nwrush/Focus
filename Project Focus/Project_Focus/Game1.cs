@@ -40,7 +40,7 @@ namespace Focus {
 
             base.Initialize();
             GV.contentManager = Content;
-            currentScene = new Scene();
+            currentScene = new GameScene();
         }
 
         /// <summary>

@@ -111,12 +111,14 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entities\Entity.cs" />
+    <Compile Include="entities\Tile.cs" />
     <Compile Include="globals\GV.cs" />
     <Compile Include="globals\KeyInput.cs" />
     <Compile Include="globals\MouseInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="scenes\GameScene.cs" />
     <Compile Include="scenes\Scene.cs" />
   </ItemGroup>
   <ItemGroup>
