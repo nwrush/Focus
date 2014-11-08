@@ -5,17 +5,16 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Focus.scenes {
-    class Scene {
-
-
-
-        public Scene() {
+namespace Project_Focus.entities {
+    class Entity {
+        public Entity() {
 
         }
+
         public virtual void LoadContent() {
 
         }
+
         public virtual void Update() {
 
         }
@@ -23,5 +22,6 @@ namespace Focus.scenes {
         public virtual void Draw(SpriteBatch spriteBatch) {
 
         }
+
     }
 }
