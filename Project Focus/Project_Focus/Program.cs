@@ -1,6 +1,6 @@
 using System;
 
-namespace Project_Focus {
+namespace Focus {
 #if WINDOWS || XBOX
     static class Program
     {

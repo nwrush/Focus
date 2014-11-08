@@ -6,7 +6,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Input;
 
-namespace Project_Focus{
+namespace Focus{
     public static partial class Input {
         /// <summary>
         /// Used with MouseInput to get input from HID

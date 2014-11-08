@@ -9,7 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 
-namespace Project_Focus {
+namespace Focus {
     /// <summary>
     /// This is the main type for your game
     /// </summary>
