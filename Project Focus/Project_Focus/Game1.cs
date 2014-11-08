@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Focus.globals;
 
 namespace Focus {
     /// <summary>
@@ -20,6 +21,9 @@ namespace Focus {
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
+            Window.Title = "Focus";
         }
 
         /// <summary>
@@ -32,6 +36,7 @@ namespace Focus {
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            GV.contentManager = Content;
         }
 
         /// <summary>

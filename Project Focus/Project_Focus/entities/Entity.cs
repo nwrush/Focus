@@ -5,10 +5,10 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Project_Focus.entities {
+namespace Focus.entities {
     class Entity {
         public Entity() {
-
+            
         }
 
         public virtual void LoadContent() {
