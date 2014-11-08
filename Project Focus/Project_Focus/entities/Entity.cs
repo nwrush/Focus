@@ -45,8 +45,8 @@ namespace Focus.entities
         //Accessors
         public Boolean Dead
         {
-            public get { return this.isDead; }
-            public set { this.isDead = value; }
+            get { return this.isDead; }
+            set { this.isDead = value; }
         }
 
     }
