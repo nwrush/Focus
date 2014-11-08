@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entities\Entity.cs" />
+    <Compile Include="globals\GV.cs" />
     <Compile Include="globals\KeyInput.cs" />
     <Compile Include="globals\MouseInput.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

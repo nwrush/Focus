@@ -8,6 +8,8 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Focus.globals;
+using Focus.scenes;
 
 namespace Focus {
     /// <summary>
@@ -17,9 +19,14 @@ namespace Focus {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        Scene currentScene;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
+            graphics.PreferredBackBufferWidth = 800;
+            graphics.PreferredBackBufferHeight = 600;
+            Window.Title = "Focus";
         }
 
         /// <summary>
@@ -32,6 +39,8 @@ namespace Focus {
             // TODO: Add your initialization logic here
 
             base.Initialize();
+            GV.contentManager = Content;
+            currentScene = new Scene();
         }
 
         /// <summary>
@@ -63,7 +72,7 @@ namespace Focus {
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+            currentScene.Update();
 
             base.Update(gameTime);
         }
@@ -75,7 +84,7 @@ namespace Focus {
         protected override void Draw(GameTime gameTime) {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+            currentScene.Draw(spriteBatch);
 
             base.Draw(gameTime);
         }
