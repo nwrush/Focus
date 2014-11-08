@@ -19,12 +19,23 @@ namespace Focus.scenes {
         }
 
         public virtual void Update() {
-            
+            if (entities.Count != 0) {
+                foreach (Entity e in entities) {
+                    e.Update();
+
+                    //check for e.kill == true
+                }
+            }
         }
 
         public virtual void Draw(SpriteBatch spriteBatch) {
-
+            if (entities.Count != 0) {
+                foreach (Entity e in entities) {
+                    e.Draw(spriteBatch);
+                }
+            }
         }
+
         /// <summary>
         /// Add an entity to the scene
         /// </summary>
