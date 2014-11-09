@@ -60,7 +60,7 @@ namespace Focus {
                 l.Draw(sb);
                 device.SetRenderTarget(null);
 
-                sb.Draw(l.RenderTarget, device.PresentationParameters.BackBufferWidth)
+                sb.Draw(l.RenderTarget, device.PresentationParameters.BackBufferWidth);
             }
         }
     }
