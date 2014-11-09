@@ -21,6 +21,7 @@ namespace Focus {
             layers = new List<TileLayer>();
             player = new Player(Vector2.Zero, new Vector2(.5f));
 
+            layers.Add(TileLayer.FromTemplateImage("7c","sketch"));
             layers.Add(TileLayer.FromArray(testLevel, "sketch"));
             layers[0].BackgroundColor = Color.Green;
             layers[0].add(player);
