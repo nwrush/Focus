@@ -21,11 +21,11 @@ namespace Focus.entities {
                 buttonRect = new Rectangle(285, 285, 285, 35);
         }
 
-        protected virtual void LoadContent(string contentName)
+        protected override void LoadContent(string contentName)
         {
-           baseTexture = GV.contentManager.Load<Texture2D>(contentName + "_base");
-           hoverTexture = GV.contentManager.Load<Texture2D>(contentName + "_hover");
-           clickTexture = GV.contentManager.Load<Texture2D>(contentName + "_click");
+           baseTexture = GV.contentManager.Load<Texture2D>(contentName + " Base");
+           hoverTexture = GV.contentManager.Load<Texture2D>(contentName + " Hover");
+           clickTexture = GV.contentManager.Load<Texture2D>(contentName + " Click");
            texture = baseTexture;
         }
 
@@ -35,9 +35,9 @@ namespace Focus.entities {
             clickReleased = false;
 
             if ((Input.getPos().X >= buttonRect.X 
-                || Input.getPos().X <= buttonRect.Right) 
-                || (Input.getPos().Y >= buttonRect.Y 
-                || Input.getPos().Y <= buttonRect.Bottom)) {
+                && Input.getPos().X <= buttonRect.Right) 
+                && (Input.getPos().Y >= buttonRect.Y 
+                && Input.getPos().Y <= buttonRect.Bottom)) {
                     if (Input.isLeftMouseDown()) {
                         clicked = true;
                     }

@@ -45,8 +45,8 @@ namespace Focus {
             base.Initialize();
             GV.contentManager = Content;
             currentScene = new GameScene();
-            //menuBackground = new Background("");
-            //menuButton = new Button("");
+            menuBackground = new Background("Title");
+            menuButton = new Button("Play Game", new Vector2());
 
             currentScene.CreateRenderTargets(GraphicsDevice);
         }
@@ -103,17 +103,18 @@ namespace Focus {
 
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            //spriteBatch.Begin();
+            
             if (menu) {
+                spriteBatch.Begin();
                 menuBackground.Draw(spriteBatch);
                 menuButton.Draw(spriteBatch);
+                spriteBatch.End();
             }
             else {
                 currentScene.Draw(GraphicsDevice, spriteBatch);
             }
 
             base.Draw(gameTime);
-            //spriteBatch.End();
         }
     }
 }
