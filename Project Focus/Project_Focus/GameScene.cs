@@ -22,6 +22,7 @@ namespace Focus {
 
             layers.Add(TileLayer.FromArray(testLevel, "white1x1"));
             layers[1].BackgroundColor = Color.Goldenrod;
+            layers[1].add(new Player(Vector2.Zero, new Vector2(1f)));
         }
 
         public void CreateRenderTargets(GraphicsDevice device)
@@ -65,9 +66,12 @@ namespace Focus {
                 
                 device.SetRenderTarget(l.RenderTarget);
                 device.Clear(l.BackgroundColor);
+                sb.Begin();
                 l.Draw(sb);
+                sb.End();
                 device.SetRenderTarget(null);
-
+                
+                sb.Begin();
                 sb.Draw(
                     l.RenderTarget,
                     new Rectangle(
@@ -76,9 +80,9 @@ namespace Focus {
                         width, 
                         device.PresentationParameters.BackBufferHeight
                     ),
-                    null,
                     Color.White
                 );
+                sb.End();
             }
         }
     }
