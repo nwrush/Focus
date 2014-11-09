@@ -3,6 +3,8 @@
 NetworkTest/
 *.mdb
 
+Thumbs.db
+
 #Visual Studio Publish files and stuff
 *.pfx
 *.config
