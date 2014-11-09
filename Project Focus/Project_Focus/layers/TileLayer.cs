@@ -22,7 +22,7 @@ namespace Focus.layers
             translationDictionary.Add(new Tuple<int, int, int>(255, 0, 0), (uint)GameObject.Boss);
         }
         public bool focused = false;
-        public bool dbgShowTiles = true;
+        public bool dbgShowTiles = false;
 
         public List<FancyRect> blocks;
 
@@ -98,6 +98,7 @@ namespace Focus.layers
         {
             Microsoft.Xna.Framework.Content.ContentManager cm = globals.GV.contentManager;
             if (contentName != "") { this.texture = cm.Load<Texture2D>(contentName); }
+            else { dbgShowTiles = true; }
             blank = cm.Load<Texture2D>("white1x1");
         }
 

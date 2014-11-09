@@ -13,7 +13,7 @@ namespace Focus {
     class GameScene {
         List<TileLayer> layers;
         public int currentLayer = 0;
-        public static int ScalingConstant = 2;
+        public static int ScalingConstant = 1;
 
         public int level = 1;
 
@@ -26,20 +26,20 @@ namespace Focus {
             layers = new List<TileLayer>();
             player = new Player(new Vector2(50, 50), new Vector2(.5f));
 
-            layers.Add(TileLayer.FromTemplateImage( level + "a"));
+            layers.Add(TileLayer.FromTemplateImage(level + "a", level == 7 ? "7a_tex" : ""));
             //layers[0].BackgroundColor = Color.Green;
             layers[0].add(player);
 
-            layers.Add(TileLayer.FromTemplateImage(level + "b"));
+            layers.Add(TileLayer.FromTemplateImage(level + "b", level == 7 ? "7b_tex" : ""));
             //layers[1].BackgroundColor = Color.Goldenrod;
             layers[1].add(player);
 
 
-            layers.Add(TileLayer.FromTemplateImage(level + "c"));
+            layers.Add(TileLayer.FromTemplateImage(level + "c", level == 7 ? "7c_tex" : ""));
             //layers[2].BackgroundColor = Color.SkyBlue;
             layers[2].add(player);
 
-            layers.Add(TileLayer.FromTemplateImage(level + "d"));
+            layers.Add(TileLayer.FromTemplateImage(level + "d", level == 7 ? "7d_tex" : ""));
             //layers[3].BackgroundColor = Color.Red;
             layers[3].add(player);
 
@@ -135,45 +135,28 @@ namespace Focus {
         public void Draw(GameTime gt, GraphicsDevice device, SpriteBatch sb)
         {
             int n = layers.Count;
-            Rectangle screen = new Rectangle(0, 0, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
 
             foreach (Layer l in layers)
             {
                 device.SetRenderTarget(l.RenderTarget);
-                device.Clear(l.BackgroundColor);
+                device.Clear(Color.Black);
                 sb.Begin();
                 l.Draw(sb);
                 sb.End();
                 device.SetRenderTarget(null);
+                device.Clear(Color.Black);
             }
-            int a = 0;
+            device.SetRenderTarget(ppBuffer);
+            device.Clear(Color.Black);
             for (int i = 0; i < n; ++i )
             {
                 Layer l = layers[i];
                 if (l.RenderTarget == null) { continue; }
 
-                Rectangle dest;
-                if (i == this.currentLayer)
-                {
-                    dest = new Rectangle(
-                        (int)(screen.Width * 0.28), 
-                        (int)(screen.Height * 0.02), 
-                        (int)(screen.Width * 0.7), 
-                        (int)(((screen.Width * 0.7) / l.width) * l.height)
-                    );
-                }
-                else
-                {
-                    dest = new Rectangle(
-                        (int)(screen.Width * 0.02),
-                        (int)(screen.Height * 0.06) + a * (int)(((screen.Width * 0.25) / l.width) * l.height),
-                        (int)(screen.Width * 0.20),
-                        (int)(((screen.Width * 0.20) / l.width) * l.height)
-                    );
-                    a++;
-                }
+                int width = (device.PresentationParameters.BackBufferWidth / 2);
+                int height = (device.PresentationParameters.BackBufferHeight / 2);
                 
-                device.SetRenderTarget(ppBuffer);
+                
 
                 testEffect.Parameters["Time"].SetValue((float)gt.TotalGameTime.TotalMilliseconds / 1000.0f);
 
@@ -184,10 +167,17 @@ namespace Focus {
 
                 sb.Draw(
                     l.RenderTarget,
-                    dest,
+                    new Rectangle(
+                        (i % 2) * width + (width - l.width) / 2,
+                        (i / 2) * height + (height - l.height) / 2,
+                        l.width,
+                        l.height
+                    ),
                     Color.White
                 );
                 sb.End();
+
+                //device.SetRenderTarget(null);
             }
 
             device.SetRenderTarget(null);

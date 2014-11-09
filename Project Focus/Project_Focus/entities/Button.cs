@@ -18,7 +18,7 @@ namespace Focus.entities {
         public Button(string baseName, Vector2 pos)
             : base(baseName) {
                 position = pos;
-                buttonRect = new Rectangle(285, 255, 265, 35);
+                buttonRect = new Rectangle(450, 350, 270, 100);
         }
 
         protected override void LoadContent(string contentName)
