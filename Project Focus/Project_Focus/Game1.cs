@@ -20,6 +20,8 @@ namespace Focus {
 
         GameScene currentScene;
 
+        bool menu = true;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
