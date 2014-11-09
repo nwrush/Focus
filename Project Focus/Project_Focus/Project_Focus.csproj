@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AudioManager.cs" />
+    <Compile Include="entities\Background.cs" />
     <Compile Include="entities\Button.cs" />
     <Compile Include="entities\Entity.cs" />
     <Compile Include="entities\Player.cs" />

@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Focus.globals;
+using Focus.entities;
 
 namespace Focus {
     /// <summary>
@@ -20,12 +21,17 @@ namespace Focus {
 
         GameScene currentScene;
 
+        bool menu = true;
+        Background menuBackground;
+        Button menuButton;
+
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
             Content.RootDirectory = "Content";
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             Window.Title = "Focus";
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
@@ -40,6 +46,8 @@ namespace Focus {
             base.Initialize();
             GV.contentManager = Content;
             currentScene = new GameScene();
+            menuBackground = new Background("Title");
+            menuButton = new Button("Play Game", new Vector2());
 
             currentScene.CreateRenderTargets(GraphicsDevice);
         }
@@ -73,9 +81,17 @@ namespace Focus {
             Input.Update();
             if (Input.isKeyDown(Keys.Escape))
                 this.Exit();
+            if (menu) {
+                menuBackground.Update();
+                menuButton.Update();
 
-            currentScene.Update(gameTime);
-
+                if (menuButton.clickReleased) {
+                    menu = false;
+                }
+            }
+            else {
+                currentScene.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
@@ -86,13 +102,19 @@ namespace Focus {
         protected override void Draw(GameTime gameTime) {
 
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
-
-            //spriteBatch.Begin();
-            currentScene.Draw(GraphicsDevice, spriteBatch);
+            GraphicsDevice.Clear(Color.Black);
+            
+            if (menu) {
+                spriteBatch.Begin();
+                menuBackground.Draw(spriteBatch);
+                menuButton.Draw(spriteBatch);
+                spriteBatch.End();
+            }
+            else {
+                currentScene.Draw(gameTime, GraphicsDevice, spriteBatch);
+            }
 
             base.Draw(gameTime);
-            //spriteBatch.End();
         }
     }
 }
