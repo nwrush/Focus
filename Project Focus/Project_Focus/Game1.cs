@@ -87,7 +87,7 @@ namespace Focus {
 
             GraphicsDevice.Clear(Color.Blue);
             //spriteBatch.Begin();
-            currentScene.Draw(GraphicsDevice, spriteBatch);
+            currentScene.Draw(gameTime, GraphicsDevice, spriteBatch);
 
             base.Draw(gameTime);
             //spriteBatch.End();

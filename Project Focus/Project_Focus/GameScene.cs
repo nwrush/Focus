@@ -16,6 +16,7 @@ namespace Focus {
 
         private uint[,] testLevel = { { 0, 1 }, { 2, 3 } };
         private Player player;
+        private Effect testEffect;
 
         public GameScene() {
             layers = new List<TileLayer>();
@@ -37,6 +38,8 @@ namespace Focus {
             layers.Add(TileLayer.FromArray(testLevel, "white1x1"));
             layers[3].BackgroundColor = Color.Red;
             layers[3].add(player);
+
+            testEffect = globals.GV.contentManager.Load<Effect>("ripple");
         }
 
         public void CreateRenderTargets(GraphicsDevice device)
@@ -69,7 +72,7 @@ namespace Focus {
             }
         }
 
-        public void Draw(GraphicsDevice device, SpriteBatch sb)
+        public void Draw(GameTime gt, GraphicsDevice device, SpriteBatch sb)
         {
             int n = layers.Count;
 
@@ -90,8 +93,8 @@ namespace Focus {
                 int width = (device.PresentationParameters.BackBufferWidth / 2);
                 int height = (device.PresentationParameters.BackBufferHeight / 2);
 
-
-                sb.Begin();
+                testEffect.Parameters["Time"].SetValue((float)gt.TotalGameTime.TotalMilliseconds / 1000.0f);
+                sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, testEffect);
                 sb.Draw(
                     l.RenderTarget,
                     new Rectangle(
