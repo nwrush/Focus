@@ -4,11 +4,19 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Focus.globals;
 
-namespace Focus.layers {
+namespace Focus.layers
+{
 
     class TileLayer : Layer
     {
+        static TileLayer()
+        {
+            //implement loading of translation table from a file
+            translationDictionary= {"wall"}
+        }
+
         public bool focused = false;
         public bool dbgShowTiles = true;
 
@@ -36,6 +44,13 @@ namespace Focus.layers {
             return result;
         }
 
+        private static Dictionary<string, int> translationDictionary;
+        private static void GenerateMapFromImange(string template)
+        {
+
+        }
+
+
         public static TileLayer FromArray(uint[,] array, string textureName)
         {
             TileLayer result = new TileLayer(array.GetLength(0), array.GetLength(1), textureName);
@@ -49,7 +64,8 @@ namespace Focus.layers {
             blank = cm.Load<Texture2D>("white1x1");
         }
 
-        public uint getTileAt(int x, int y) {
+        public uint getTileAt(int x, int y)
+        {
             return tiles[x, y];
         }
 
@@ -108,4 +124,12 @@ namespace Focus.layers {
             get { return tiles.GetLength(1); }
         }
     }
+    public enum GameObjects
+    {
+        Wall,
+        Obstacle,
+        Player,
+        Key,
+        Boss
+    };
 }
