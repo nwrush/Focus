@@ -54,9 +54,24 @@ namespace Focus {
 
         internal void LoadLevel(int level)
         {
-
+            Player p = null;
+            int layer = 0;
+            if (currentScene != null)
+            {
+                p = currentScene.player;
+                layer = currentScene.currentLayer;
+            }
             currentScene = new GameScene(level);
             currentScene.CreateRenderTargets(GraphicsDevice);
+            currentScene.currentLayer = layer;
+
+            if (p != null)
+            {
+                if (p.Position.X < 0) { currentScene.player.Position = new Vector2(currentScene.getFocusedLayer().width - 18, p.Position.Y); }
+                if (p.Position.X > 50) { currentScene.player.Position = new Vector2(18, p.Position.Y); }
+                if (p.Position.Y < 0) { currentScene.player.Position = new Vector2(p.Position.X, currentScene.getFocusedLayer().height - 18); }
+                if (p.Position.Y > 50) { currentScene.player.Position = new Vector2(p.Position.X, 18); }
+            }
         }
 
         internal void LoadLevelUp(int level)

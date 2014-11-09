@@ -13,11 +13,11 @@ namespace Focus {
     class GameScene {
         List<TileLayer> layers;
         public int currentLayer = 0;
-        public static int ScalingConstant = 1;
+        public static int ScalingConstant = 2;
 
         public int level = 1;
 
-        private Player player;
+        internal Player player;
         private Effect testEffect;
         private RenderTarget2D ppBuffer;
 
@@ -66,9 +66,9 @@ namespace Focus {
             currentLayer = layer;
         }
 
-        public int getFocusedLayer()
+        public Layer getFocusedLayer()
         {
-            return currentLayer;
+            return layers[currentLayer];
         }
 
         private void UpdateLayers(GameTime gt)
@@ -135,6 +135,7 @@ namespace Focus {
         public void Draw(GameTime gt, GraphicsDevice device, SpriteBatch sb)
         {
             int n = layers.Count;
+            Rectangle screen = new Rectangle(0, 0, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
 
             foreach (Layer l in layers)
             {
@@ -145,14 +146,32 @@ namespace Focus {
                 sb.End();
                 device.SetRenderTarget(null);
             }
-
+            int a = 0;
             for (int i = 0; i < n; ++i )
             {
                 Layer l = layers[i];
                 if (l.RenderTarget == null) { continue; }
 
-                int width = (device.PresentationParameters.BackBufferWidth / 2);
-                int height = (device.PresentationParameters.BackBufferHeight / 2);
+                Rectangle dest;
+                if (i == this.currentLayer)
+                {
+                    dest = new Rectangle(
+                        (int)(screen.Width * 0.28), 
+                        (int)(screen.Height * 0.02), 
+                        (int)(screen.Width * 0.7), 
+                        (int)(((screen.Width * 0.7) / l.width) * l.height)
+                    );
+                }
+                else
+                {
+                    dest = new Rectangle(
+                        (int)(screen.Width * 0.02),
+                        (int)(screen.Height * 0.06) + a * (int)(((screen.Width * 0.25) / l.width) * l.height),
+                        (int)(screen.Width * 0.20),
+                        (int)(((screen.Width * 0.20) / l.width) * l.height)
+                    );
+                    a++;
+                }
                 
                 device.SetRenderTarget(ppBuffer);
 
@@ -165,12 +184,7 @@ namespace Focus {
 
                 sb.Draw(
                     l.RenderTarget,
-                    new Rectangle(
-                        (i % 2) * width + (width - l.width) / 2,
-                        (i / 2) * height + (height - l.height) / 2,
-                        l.width,
-                        l.height
-                    ),
+                    dest,
                     Color.White
                 );
                 sb.End();

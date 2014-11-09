@@ -26,7 +26,7 @@ namespace Focus.layers
 
         public List<FancyRect> blocks;
 
-        public const int TILESIZE = 18;
+        public const int TILESIZE = 16;
 
         private Texture2D texture;
         private Texture2D blank;
