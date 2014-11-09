@@ -8,13 +8,12 @@ using Focus.globals;
 
 namespace Focus.layers
 {
-
     class TileLayer : Layer
     {
         static TileLayer()
         {
             translationDictionary = new Dictionary<Tuple<int, int, int>, GameObjects>();
-
+            //Read these values from a file
             translationDictionary.Add(new Tuple<int, int, int>(0, 0, 0), GameObjects.Wall);
             translationDictionary.Add(new Tuple<int, int, int>(127, 127, 127), GameObjects.Obstacle);
             translationDictionary.Add(new Tuple<int, int, int>(163, 73, 164), GameObjects.Player);
