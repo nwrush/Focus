@@ -31,8 +31,7 @@ namespace Focus.entities
 
         protected virtual void LoadContent(string contentName)
         {
-            Microsoft.Xna.Framework.Content.ContentManager cm = GV.contentManager;
-            this.texture = cm.Load<Texture2D>(contentName);
+            this.texture = GV.contentManager.Load<Texture2D>(contentName);
         }
 
         public virtual void Update()
