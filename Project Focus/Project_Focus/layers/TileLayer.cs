@@ -4,11 +4,14 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Focus.globals;
 
-namespace Focus.layers {
+namespace Focus.layers
+{
 
     class TileLayer : Layer
     {
+
         public bool focused = false;
         public bool dbgShowTiles = true;
 
@@ -36,9 +39,17 @@ namespace Focus.layers {
             return result;
         }
 
+        private static Dictionary<string, int> translationDictionary;
+        private static void GenerateMapFromImange(string template)
+        {
+
+        }
+
+
         public static TileLayer FromArray(uint[,] array, string textureName)
         {
             TileLayer result = new TileLayer(array.GetLength(0), array.GetLength(1), textureName);
+            result.tiles = array;
             return result;
         }
 
@@ -49,7 +60,8 @@ namespace Focus.layers {
             blank = cm.Load<Texture2D>("white1x1");
         }
 
-        public uint getTileAt(int x, int y) {
+        public uint getTileAt(int x, int y)
+        {
             return tiles[x, y];
         }
 
@@ -67,10 +79,10 @@ namespace Focus.layers {
                     return Color.Magenta;
             }
         }
-
+        
         public Color makeTransparent(Color c, byte a)
         {
-            c.A = a;
+            c.A &= a;
             return c;
         }
 
@@ -82,7 +94,7 @@ namespace Focus.layers {
 
         public virtual void DrawTiles(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.texture, Vector2.Zero, null, Color.White);
+            spriteBatch.Draw(this.texture, new Rectangle(0, 0, width * TILESIZE, height * TILESIZE), Color.White);
             if (dbgShowTiles)
             {
                 Rectangle tileBnds = new Rectangle(0, 0, TILESIZE, TILESIZE);
@@ -108,4 +120,12 @@ namespace Focus.layers {
             get { return tiles.GetLength(1); }
         }
     }
+    public enum GameObjects
+    {
+        Wall,
+        Obstacle,
+        Player,
+        Key,
+        Boss
+    };
 }

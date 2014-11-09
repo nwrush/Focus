@@ -12,17 +12,26 @@ namespace Focus {
     class GameScene {
         List<TileLayer> layers;
         public int currentLayer = 0;
+        public static int ScalingConstant = 1;
 
         private uint[,] testLevel = { { 0, 1 }, { 2, 3 } };
 
         public GameScene() {
             layers = new List<TileLayer>();
+
             layers.Add(TileLayer.FromArray(testLevel, "sketch"));
             layers[0].BackgroundColor = Color.Green;
+            layers[0].add(new Player(Vector2.Zero, new Vector2(1f)));
 
             layers.Add(TileLayer.FromArray(testLevel, "white1x1"));
             layers[1].BackgroundColor = Color.Goldenrod;
-            layers[1].add(new Player(Vector2.Zero, new Vector2(1f)));
+
+
+            layers.Add(TileLayer.FromArray(testLevel, "sketch"));
+            layers[2].BackgroundColor = Color.SkyBlue;
+
+            layers.Add(TileLayer.FromArray(testLevel, "white1x1"));
+            layers[3].BackgroundColor = Color.Red;
         }
 
         public void CreateRenderTargets(GraphicsDevice device)
@@ -32,8 +41,8 @@ namespace Focus {
                 l.RenderTarget = 
                     new RenderTarget2D(
                         device, 
-                        device.PresentationParameters.BackBufferWidth,
-                        device.PresentationParameters.BackBufferHeight
+                        device.PresentationParameters.BackBufferWidth / (2 * ScalingConstant),
+                        device.PresentationParameters.BackBufferHeight / (2 * ScalingConstant)
                     );
             }
         }
@@ -59,25 +68,32 @@ namespace Focus {
         {
             int n = layers.Count;
 
-            for (int i = 0; i < n; ++i)
+            foreach (Layer l in layers)
             {
-                Layer l = layers[i];
-                int width = (device.PresentationParameters.BackBufferWidth / n) * i;
-                
                 device.SetRenderTarget(l.RenderTarget);
                 device.Clear(l.BackgroundColor);
                 sb.Begin();
                 l.Draw(sb);
                 sb.End();
                 device.SetRenderTarget(null);
+            }
+
+            for (int i = 0; i < n; ++i )
+            {
+                Layer l = layers[i];
+
+                int width = (device.PresentationParameters.BackBufferWidth / 2);
+                int height = (device.PresentationParameters.BackBufferHeight / 2);
+
+
                 sb.Begin();
                 sb.Draw(
                     l.RenderTarget,
                     new Rectangle(
-                        width * i,
-                        0,
-                        width, 
-                        device.PresentationParameters.BackBufferHeight/2
+                        (i % 2) * width,
+                        (i / 2) * height,
+                        width,
+                        height
                     ),
                     Color.White
                 );
