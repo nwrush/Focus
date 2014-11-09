@@ -13,7 +13,6 @@ namespace Focus.layers
     {
         List<Entity> entities;
         public RenderTarget2D RenderTarget;
-        public Texture2D Buffer;
         public Color BackgroundColor = Color.Black;
 
         public Layer()

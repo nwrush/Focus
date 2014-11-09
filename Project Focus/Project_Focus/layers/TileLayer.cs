@@ -11,11 +11,6 @@ namespace Focus.layers
 
     class TileLayer : Layer
     {
-        static TileLayer()
-        {
-            //implement loading of translation table from a file
-            translationDictionary= {"wall"}
-        }
 
         public bool focused = false;
         public bool dbgShowTiles = true;
@@ -56,6 +51,7 @@ namespace Focus.layers
         public static TileLayer FromArray(uint[,] array, string textureName)
         {
             TileLayer result = new TileLayer(array.GetLength(0), array.GetLength(1), textureName);
+            result.tiles = array;
             return result;
         }
 
@@ -85,10 +81,10 @@ namespace Focus.layers
                     return Color.Magenta;
             }
         }
-
+        
         public Color makeTransparent(Color c, byte a)
         {
-            c.A = a;
+            c.A &= a;
             return c;
         }
 
@@ -100,7 +96,7 @@ namespace Focus.layers
 
         public virtual void DrawTiles(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.texture, Vector2.Zero, null, Color.White);
+            spriteBatch.Draw(this.texture, new Rectangle(0, 0, width * TILESIZE, height * TILESIZE), Color.White);
             if (dbgShowTiles)
             {
                 Rectangle tileBnds = new Rectangle(0, 0, TILESIZE, TILESIZE);
