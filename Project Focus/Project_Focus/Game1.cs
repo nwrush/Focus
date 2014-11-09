@@ -82,9 +82,9 @@ namespace Focus {
         /// </summary>
         /// <param name="gameTime">Provides a snapshot of timing values.</param>
         protected override void Draw(GameTime gameTime) {
-            GraphicsDevice.Clear(Color.HotPink);
+            GraphicsDevice.Clear(Color.Black);
             spriteBatch.Begin();
-            currentScene.Draw(spriteBatch);
+            currentScene.Draw(GraphicsDevice, spriteBatch);
 
             base.Draw(gameTime);
             spriteBatch.End();
