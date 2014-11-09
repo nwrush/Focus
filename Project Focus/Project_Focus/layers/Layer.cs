@@ -14,13 +14,12 @@ namespace Focus.layers
         List<Entity> entities;
         public RenderTarget2D RenderTarget;
         public Texture2D Buffer;
+
         public Color BackgroundColor = Color.Black;
 
         public Layer()
         {
             entities = new List<Entity>();
-
-            entities.Add(new Player(Vector2.Zero, new Vector2(1f)));
         }
 
         public virtual void Update()
@@ -56,12 +55,12 @@ namespace Focus.layers
         /// <summary>
         /// Add an entity to the scene
         /// </summary>
-        protected virtual void add(Entity e)
+        public virtual void add(Entity e)
         {
             entities.Add(e);
         }
 
-        protected virtual void remove(Entity e)
+        public virtual void remove(Entity e)
         {
             entities.Remove(e);
         }
