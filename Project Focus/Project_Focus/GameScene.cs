@@ -15,29 +15,32 @@ namespace Focus {
         public int currentLayer = 0;
         public static int ScalingConstant = 1;
 
+        public int level = 1;
+
         private Player player;
         private Effect testEffect;
         private RenderTarget2D ppBuffer;
 
-        public GameScene() {
+        public GameScene(int level ) {
+            this.level = level;
             layers = new List<TileLayer>();
             player = new Player(new Vector2(50, 50), new Vector2(.5f));
 
-            layers.Add(TileLayer.FromTemplateImage("7a"));
-            layers[0].BackgroundColor = Color.Green;
+            layers.Add(TileLayer.FromTemplateImage( level + "a"));
+            //layers[0].BackgroundColor = Color.Green;
             layers[0].add(player);
 
-            layers.Add(TileLayer.FromTemplateImage("7b"));
-            layers[1].BackgroundColor = Color.Goldenrod;
+            layers.Add(TileLayer.FromTemplateImage(level + "b"));
+            //layers[1].BackgroundColor = Color.Goldenrod;
             layers[1].add(player);
 
 
-            layers.Add(TileLayer.FromTemplateImage("7c"));
-            layers[2].BackgroundColor = Color.SkyBlue;
+            layers.Add(TileLayer.FromTemplateImage(level + "c"));
+            //layers[2].BackgroundColor = Color.SkyBlue;
             layers[2].add(player);
 
-            layers.Add(TileLayer.FromTemplateImage("7d"));
-            layers[3].BackgroundColor = Color.Red;
+            layers.Add(TileLayer.FromTemplateImage(level + "d"));
+            //layers[3].BackgroundColor = Color.Red;
             layers[3].add(player);
 
             testEffect = globals.GV.contentManager.Load<Effect>("ripple");
@@ -110,6 +113,23 @@ namespace Focus {
                 result = FancyRect.CollideRect(result, b);
             }
             player.Position = new Vector2(result.x, result.y);
+
+            if (player.Position.Y > tlayer.height)
+            {
+                globals.GV.Current.LoadLevelDown(level);
+            }
+            if (player.Position.Y < 0)
+            {
+                globals.GV.Current.LoadLevelUp(level);
+            }
+            if (player.Position.X < 0)
+            {
+                globals.GV.Current.LoadLevelLeft(level);
+            }
+            if (player.Position.X > tlayer.width)
+            {
+                globals.GV.Current.LoadLevelRight(level);
+            }
         }
 
         public void Draw(GameTime gt, GraphicsDevice device, SpriteBatch sb)
@@ -129,6 +149,7 @@ namespace Focus {
             for (int i = 0; i < n; ++i )
             {
                 Layer l = layers[i];
+                if (l.RenderTarget == null) { continue; }
 
                 int width = (device.PresentationParameters.BackBufferWidth / 2);
                 int height = (device.PresentationParameters.BackBufferHeight / 2);

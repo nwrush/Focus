@@ -9,5 +9,6 @@ namespace Focus.globals {
     public static class GV {
 
         public static ContentManager contentManager;
+        public static Game1 Current;
     }
 }

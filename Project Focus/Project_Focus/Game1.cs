@@ -19,7 +19,7 @@ namespace Focus {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        GameScene currentScene;
+        internal GameScene currentScene;
 
         bool menu = true;
         Background menuBackground;
@@ -32,6 +32,7 @@ namespace Focus {
             graphics.PreferredBackBufferHeight = 600;
             Window.Title = "Focus";
             this.IsMouseVisible = true;
+            GV.Current = this;
         }
 
         /// <summary>
@@ -45,11 +46,79 @@ namespace Focus {
 
             base.Initialize();
             GV.contentManager = Content;
-            currentScene = new GameScene();
             menuBackground = new Background("Title");
             menuButton = new Button("Play Game", new Vector2());
 
+            LoadLevel(7);
+        }
+
+        internal void LoadLevel(int level)
+        {
+
+            currentScene = new GameScene(level);
             currentScene.CreateRenderTargets(GraphicsDevice);
+        }
+
+        internal void LoadLevelUp(int level)
+        {
+            switch (level)
+            {
+                case 7:
+                    level = 9;
+                    break;
+                case 8:
+                    level = 7;
+                    break;
+                case 10:
+                    level = 11;
+                    break;
+                case 11:
+                    level = 12;
+                    break;
+            }
+            LoadLevel(level);
+        }
+
+        internal void LoadLevelDown(int level)
+        {
+            switch (level)
+            {
+                case 7:
+                    level = 8;
+                    break;
+                case 9:
+                    level = 7;
+                    break;
+                case 12:
+                    level = 11;
+                    break;
+                case 11:
+                    level = 10;
+                    break;
+            }
+            LoadLevel(level);
+        }
+
+        internal void LoadLevelRight(int level)
+        {
+            switch (level)
+            {
+                case 9:
+                    level = 10;
+                    break;
+            }
+            LoadLevel(level);
+        }
+
+        internal void LoadLevelLeft(int level)
+        {
+            switch (level)
+            {
+                case 10:
+                    level = 9;
+                    break;
+            }
+            LoadLevel(level);
         }
 
         /// <summary>
