@@ -15,23 +15,29 @@ namespace Focus {
         public static int ScalingConstant = 1;
 
         private uint[,] testLevel = { { 0, 1 }, { 2, 3 } };
+        private Player player;
 
         public GameScene() {
             layers = new List<TileLayer>();
+            player = new Player(Vector2.Zero, new Vector2(.5f));
 
+            layers.Add(TileLayer.FromTemplateImage("7c","sketch"));
             layers.Add(TileLayer.FromArray(testLevel, "sketch"));
             layers[0].BackgroundColor = Color.Green;
-            layers[0].add(new Player(Vector2.Zero, new Vector2(1f)));
+            layers[0].add(player);
 
             layers.Add(TileLayer.FromArray(testLevel, "white1x1"));
             layers[1].BackgroundColor = Color.Goldenrod;
+            layers[1].add(player);
 
 
             layers.Add(TileLayer.FromArray(testLevel, "sketch"));
             layers[2].BackgroundColor = Color.SkyBlue;
+            layers[2].add(player);
 
             layers.Add(TileLayer.FromArray(testLevel, "white1x1"));
             layers[3].BackgroundColor = Color.Red;
+            layers[3].add(player);
         }
 
         public void CreateRenderTargets(GraphicsDevice device)
