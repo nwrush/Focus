@@ -115,6 +115,7 @@
     <Compile Include="entities\Button.cs" />
     <Compile Include="entities\Entity.cs" />
     <Compile Include="entities\Player.cs" />
+    <Compile Include="FancyRect.cs" />
     <Compile Include="layers\TileLayer.cs" />
     <Compile Include="globals\GV.cs" />
     <Compile Include="globals\KeyInput.cs" />

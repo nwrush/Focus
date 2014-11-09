@@ -51,5 +51,16 @@ namespace Focus.entities
             set { this.isDead = value; }
         }
 
+        public Vector2 Position
+        {
+            get { return this.position; }
+            set { this.position = value; }
+        }
+
+        public virtual Rectangle Size
+        {
+            get { return this.texture.Bounds; }
+        }
+
     }
 }

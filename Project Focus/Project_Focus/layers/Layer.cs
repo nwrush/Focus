@@ -21,7 +21,7 @@ namespace Focus.layers
             entities = new List<Entity>();
         }
 
-        public virtual void Update()
+        public virtual void UpdateEntities()
         {
             if (entities.Count != 0)
             {
@@ -40,6 +40,13 @@ namespace Focus.layers
             }
         }
 
+        public virtual void Update()
+        {
+            UpdateEntities();
+
+            
+        }
+
         public virtual void Draw(SpriteBatch spriteBatch)
         {
             if (entities.Count != 0)
@@ -49,6 +56,11 @@ namespace Focus.layers
                     e.Draw(spriteBatch);
                 }
             }
+        }
+
+        public virtual void setWidth()
+        {
+
         }
 
         /// <summary>
@@ -62,6 +74,15 @@ namespace Focus.layers
         public virtual void remove(Entity e)
         {
             entities.Remove(e);
+        }
+
+        public virtual int width
+        {
+            get { return RenderTarget != null ? RenderTarget.Width : -1; }
+        }
+        public virtual int height
+        {
+            get { return RenderTarget != null ? RenderTarget.Height : -1; }
         }
     }
 

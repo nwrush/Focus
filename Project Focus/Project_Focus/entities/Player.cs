@@ -12,6 +12,9 @@ namespace Focus.entities
 {
     class Player : Entity
     {
+        public const int WIDTH = 18;
+        public const int HEIGHT = 18;
+
         public Player(Vector2 position, Vector2 speed)
             : base(position, speed, "player")
         { }
@@ -38,5 +41,13 @@ namespace Focus.entities
                 this.position.X += this.speed.X;
             }
         }
+
+        /*public override Rectangle Size
+        {
+            get
+            {
+                return new Rectangle((int)Position.X, (int)Position.Y, WIDTH, HEIGHT);
+            }
+        }*/
     }
 }

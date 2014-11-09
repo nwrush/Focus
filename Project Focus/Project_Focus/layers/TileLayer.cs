@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Content;
 using Focus.globals;
 
 namespace Focus.layers
@@ -13,16 +14,18 @@ namespace Focus.layers
     {
         static TileLayer()
         {
-            translationDictionary = new Dictionary<Tuple<int, int, int>, GameObjects>();
+            translationDictionary = new Dictionary<Tuple<int, int, int>, uint>();
 
-            translationDictionary.Add(new Tuple<int, int, int>(0, 0, 0), GameObjects.Wall);
-            translationDictionary.Add(new Tuple<int, int, int>(127, 127, 127), GameObjects.Obstacle);
-            translationDictionary.Add(new Tuple<int, int, int>(163, 73, 164), GameObjects.Player);
-            translationDictionary.Add(new Tuple<int, int, int>(255, 242, 0), GameObjects.Key);
-            translationDictionary.Add(new Tuple<int, int, int>(255, 0, 0), GameObjects.Boss);
+            translationDictionary.Add(new Tuple<int, int, int>(0, 0, 0), (uint)Tile.Wall);
+            translationDictionary.Add(new Tuple<int, int, int>(127, 127, 127), (uint)Tile.Obstacle);
+            translationDictionary.Add(new Tuple<int, int, int>(163, 73, 164), (uint)GameObject.Player);
+            translationDictionary.Add(new Tuple<int, int, int>(255, 242, 0), (uint)GameObject.Key);
+            translationDictionary.Add(new Tuple<int, int, int>(255, 0, 0), (uint)GameObject.Boss);
         }
         public bool focused = false;
         public bool dbgShowTiles = true;
+
+        public List<FancyRect> blocks;
 
         public const int TILESIZE = 18;
 
@@ -31,32 +34,32 @@ namespace Focus.layers
 
         private uint[,] tiles;
 
-        private TileLayer(int width, int height, string contentName)
+        private TileLayer(string contentName)
         {
-            tiles = new uint[width, height];
             LoadContent(contentName);
+            blocks = new List<FancyRect>();
         }
 
-        public static TileLayer FromTemplateImage(string templateName, string textureName)
+        public static TileLayer FromTemplateImage(string templateName, string textureName ="")
         {
-            Microsoft.Xna.Framework.Content.ContentManager cm = globals.GV.contentManager;
+            ContentManager cm = globals.GV.contentManager;
             Texture2D img = cm.Load<Texture2D>(templateName);
-            TileLayer result = new TileLayer(img.Width, img.Height, textureName);
+            TileLayer result = new TileLayer(textureName);
 
             //Todo: load tiles in from image
-            GenerateMapFromImage(templateName);
+            result.tiles = result.GenerateMapFromImage(templateName);
             return result;
         }
 
-        private static Dictionary<Tuple<int, int, int>, GameObjects> translationDictionary;
-        private static void GenerateMapFromImage(string template)
+        private static Dictionary<Tuple<int, int, int>, uint> translationDictionary;
+        private uint[,] GenerateMapFromImage(string template)
         {
             Texture2D img = GV.contentManager.Load<Texture2D>(template);
 
             Color[] colorData = new Color[img.Height * img.Width];
             img.GetData<Color>(colorData);
 
-            GameObjects[,] levelArray = new GameObjects[img.Width, img.Height];
+            uint[,] levelArray = new uint[img.Width, img.Height];
             //convert 1D to 2D
             Color c;
             Tuple<int, int, int> color;
@@ -70,46 +73,57 @@ namespace Focus.layers
                     color = new Tuple<int, int, int>(c.R, c.G, c.B);
                     if (translationDictionary.ContainsKey(color))
                     {
-                        levelArray[i, j] = translationDictionary[color];
+                        uint thing = translationDictionary[color];
+                        if (thing == 0 || thing == 1 || thing == 2)
+                        {
+                            levelArray[i, j] = translationDictionary[color];
+                            blocks.Add(new FancyRect(i * TILESIZE, j * TILESIZE, TILESIZE, TILESIZE));
+                        }
+                        else
+                        {
+                            // Todo: place entities
+                        }
                     }
                     else
                     {
-                        levelArray[i, j] = GameObjects.Floor;
+                        levelArray[i, j] = (uint)Tile.Floor;
                     }
                     ++cnt;
                 }
             }
-        }
 
-
-        public static TileLayer FromArray(uint[,] array, string textureName)
-        {
-            TileLayer result = new TileLayer(array.GetLength(0), array.GetLength(1), textureName);
-            result.tiles = array;
-            return result;
+            return levelArray;
         }
 
         protected virtual void LoadContent(string contentName)
         {
             Microsoft.Xna.Framework.Content.ContentManager cm = globals.GV.contentManager;
-            this.texture = cm.Load<Texture2D>(contentName);
+            if (contentName != "") { this.texture = cm.Load<Texture2D>(contentName); }
             blank = cm.Load<Texture2D>("white1x1");
         }
 
         public uint getTileAt(int x, int y)
         {
+            if (x < 0 || y < 0 || x >= tileWidth || y >= tileHeight) { return uint.MaxValue; }
             return tiles[x, y];
         }
 
-        public Color getTilecolor(uint tileId)
+        public bool isSolid(int x, int y)
         {
-            switch (tileId)
+            if (x < 0 || y < 0 || x >= tileWidth || y >= tileHeight) { return true; }
+            uint g = getTileAt(x, y);
+            return g == (uint)Tile.Obstacle || g == (uint)Tile.Wall;
+        }
+
+        public Color getTilecolor(uint g)
+        {
+            switch (g)
             {
-                case 0:
+                case (uint)Tile.Floor:
                     return Color.Transparent;
-                case 1:
+                case (uint)Tile.Wall:
                     return Color.Red;
-                case 2:
+                case (uint)Tile.Obstacle:
                     return Color.Blue;
                 default:
                     return Color.Magenta;
@@ -118,7 +132,10 @@ namespace Focus.layers
 
         public Color makeTransparent(Color c, byte a)
         {
-            c.A &= a;
+            if (c.A != 0)
+            {
+                c.A = a;
+            }
             return c;
         }
 
@@ -130,13 +147,16 @@ namespace Focus.layers
 
         public virtual void DrawTiles(SpriteBatch spriteBatch)
         {
-            spriteBatch.Draw(this.texture, new Rectangle(0, 0, width * TILESIZE, height * TILESIZE), Color.White);
+            if (this.texture != null)
+            {
+                spriteBatch.Draw(this.texture, new Rectangle(0, 0, width, height), Color.White);
+            }
             if (dbgShowTiles)
             {
                 Rectangle tileBnds = new Rectangle(0, 0, TILESIZE, TILESIZE);
-                for (int x = 0; x < width; ++x)
+                for (int x = 0; x < tileWidth; ++x)
                 {
-                    for (int y = 0; y < height; ++y)
+                    for (int y = 0; y < tileHeight; ++y)
                     {
                         tileBnds.X = x * TILESIZE;
                         tileBnds.Y = y * TILESIZE;
@@ -147,22 +167,34 @@ namespace Focus.layers
             }
         }
 
-        public int width
+        public int tileWidth
         {
             get { return tiles.GetLength(0); }
         }
-        public int height
+        public int tileHeight
         {
             get { return tiles.GetLength(1); }
         }
+
+        public override int width
+        {
+            get { return tileWidth * TILESIZE; }
+        }
+        public override int height
+        {
+            get { return tileHeight * TILESIZE; }
+        }
     }
-    public enum GameObjects
+    public enum GameObject : uint
     {
-        Floor,
-        Wall,
-        Obstacle,
-        Player,
-        Key,
-        Boss
+        Player = 3,
+        Key = 4,
+        Boss = 5
     };
+    public enum Tile : uint
+    {
+        Floor = 0,
+        Wall = 1,
+        Obstacle = 2
+    }
 }
