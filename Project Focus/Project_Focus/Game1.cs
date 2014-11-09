@@ -9,6 +9,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Focus.globals;
+using Focus.entities;
 
 namespace Focus {
     /// <summary>
@@ -21,6 +22,8 @@ namespace Focus {
         GameScene currentScene;
 
         bool menu = true;
+        Background menuBackground;
+        Button menuButton;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -42,6 +45,8 @@ namespace Focus {
             base.Initialize();
             GV.contentManager = Content;
             currentScene = new GameScene();
+            //menuBackground = new Background("");
+            //menuButton = new Button("");
 
             currentScene.CreateRenderTargets(GraphicsDevice);
         }
@@ -75,9 +80,17 @@ namespace Focus {
             Input.Update();
             if (Input.isKeyDown(Keys.Escape))
                 this.Exit();
+            if (menu) {
+                menuBackground.Update();
+                menuButton.Update();
 
-            currentScene.Update(gameTime);
-
+                if (menuButton.clickReleased) {
+                    menu = false;
+                }
+            }
+            else {
+                currentScene.Update(gameTime);
+            }
             base.Update(gameTime);
         }
 
@@ -91,7 +104,13 @@ namespace Focus {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
             //spriteBatch.Begin();
-            currentScene.Draw(GraphicsDevice, spriteBatch);
+            if (menu) {
+                menuBackground.Draw(spriteBatch);
+                menuButton.Draw(spriteBatch);
+            }
+            else {
+                currentScene.Draw(GraphicsDevice, spriteBatch);
+            }
 
             base.Draw(gameTime);
             //spriteBatch.End();
