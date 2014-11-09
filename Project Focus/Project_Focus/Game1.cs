@@ -40,6 +40,7 @@ namespace Focus {
             base.Initialize();
             GV.contentManager = Content;
             currentScene = new GameScene();
+            currentScene.CreateRenderTargets(GraphicsDevice);
         }
 
         /// <summary>

@@ -18,6 +18,10 @@ namespace Focus {
         public GameScene() {
             layers = new List<TileLayer>();
             layers.Add(TileLayer.FromArray(testLevel, "sketch"));
+            layers[0].BackgroundColor = Color.Green;
+
+            layers.Add(TileLayer.FromArray(testLevel, "white1x1"));
+            layers[1].BackgroundColor = Color.Goldenrod;
         }
 
         public void CreateRenderTargets(GraphicsDevice device)
@@ -28,7 +32,8 @@ namespace Focus {
                     new RenderTarget2D(
                         device, 
                         device.PresentationParameters.BackBufferWidth,
-                        device.PresentationParameters.BackBufferHeight);
+                        device.PresentationParameters.BackBufferHeight
+                    );
             }
         }
 
@@ -53,14 +58,27 @@ namespace Focus {
         {
             int n = layers.Count;
 
-            foreach (Layer l in layers)
+            for (int i = 0; i < n; ++i)
             {
+                Layer l = layers[i];
+                int width = (device.PresentationParameters.BackBufferWidth / n) * i;
+                
                 device.SetRenderTarget(l.RenderTarget);
-                device.Clear(ClearOptions.Target | ClearOptions.DepthBuffer, l.BackgroundColor, 1.0f, 0);
+                device.Clear(l.BackgroundColor);
                 l.Draw(sb);
                 device.SetRenderTarget(null);
 
-                sb.Draw(l.RenderTarget, device.PresentationParameters.BackBufferWidth);
+                
+                sb.Draw(
+                    l.RenderTarget,
+                    new Rectangle(
+                        width * i,
+                        0,
+                        width, 
+                        device.PresentationParameters.BackBufferHeight
+                    ),
+                    Color.White
+                );
             }
         }
     }
