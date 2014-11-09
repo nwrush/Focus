@@ -7,14 +7,14 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Focus.entities;
 
-namespace Focus.scenes
+namespace Focus.layers
 {
 
-    class Scene
+    class Layer
     {
         List<Entity> entities;
 
-        public Scene()
+        public Layer()
         {
             entities = new List<Entity>();
             entities.Add(new Player(Vector2.Zero, new Vector2(1f)));

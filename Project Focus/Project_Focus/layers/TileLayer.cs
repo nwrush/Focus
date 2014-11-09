@@ -5,9 +5,9 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Focus {
+namespace Focus.layers {
 
-    class TileLayer
+    class TileLayer : Layer
     {
         public bool focused = false;
         public bool dbgShowTiles = true;
@@ -19,21 +19,27 @@ namespace Focus {
 
         private uint[,] tiles;
 
-        public TileLayer(uint width, uint height, string contentName)
+        private TileLayer(int width, int height, string contentName)
         {
             tiles = new uint[width, height];
             LoadContent(contentName);
         }
 
-        public virtual void LoadFromImage(string assetName)
+        public static TileLayer FromTemplateImage(string templateName, string textureName)
         {
             Microsoft.Xna.Framework.Content.ContentManager cm = globals.GV.contentManager;
-            this.texture = cm.Load<Texture2D>(assetName);
+            Texture2D img = cm.Load<Texture2D>(templateName);
+            TileLayer result = new TileLayer(img.Width, img.Height, textureName);
+
+            //Todo: load tiles in from image
+
+            return result;
         }
 
-        public virtual void LoadFromArray(uint[,] array)
+        public static TileLayer FromArray(uint[,] array, string textureName)
         {
-            this.tiles = array;
+            TileLayer result = new TileLayer(array.GetLength(0), array.GetLength(1), textureName);
+            return result;
         }
 
         protected virtual void LoadContent(string contentName)
@@ -68,7 +74,13 @@ namespace Focus {
             return c;
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch)
+        {
+            DrawTiles(spriteBatch);
+            base.Draw(spriteBatch);
+        }
+
+        public virtual void DrawTiles(SpriteBatch spriteBatch)
         {
             spriteBatch.Draw(this.texture, Vector2.Zero, null, Color.White);
             if (dbgShowTiles)

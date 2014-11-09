@@ -9,7 +9,6 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Focus.globals;
-using Focus.scenes;
 
 namespace Focus {
     /// <summary>
@@ -19,7 +18,7 @@ namespace Focus {
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
-        Scene currentScene;
+        GameScene currentScene;
 
         public Game1() {
             graphics = new GraphicsDeviceManager(this);
@@ -73,7 +72,7 @@ namespace Focus {
             if (Input.isKeyDown(Keys.Escape))
                 this.Exit();
 
-            currentScene.Update();
+            currentScene.Update(gameTime);
 
             base.Update(gameTime);
         }
