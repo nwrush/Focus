@@ -11,7 +11,16 @@ namespace Focus.layers
 
     class TileLayer : Layer
     {
+        static TileLayer()
+        {
+            translationDictionary = new Dictionary<Tuple<int, int, int>, GameObjects>();
 
+            translationDictionary.Add(new Tuple<int, int, int>(0, 0, 0), GameObjects.Wall);
+            translationDictionary.Add(new Tuple<int, int, int>(127, 127, 127), GameObjects.Obstacle);
+            translationDictionary.Add(new Tuple<int, int, int>(163, 73, 164), GameObjects.Player);
+            translationDictionary.Add(new Tuple<int, int, int>(255, 242, 0), GameObjects.Key);
+            translationDictionary.Add(new Tuple<int, int, int>(255, 0, 0), GameObjects.Boss);
+        }
         public bool focused = false;
         public bool dbgShowTiles = true;
 
@@ -35,16 +44,41 @@ namespace Focus.layers
             TileLayer result = new TileLayer(img.Width, img.Height, textureName);
 
             //Todo: load tiles in from image
-
+            GenerateMapFromImage(templateName);
             return result;
         }
 
-        private static Dictionary<GameObjects, int> translationDictionary;
+        private static Dictionary<Tuple<int, int, int>, GameObjects> translationDictionary;
+        [Obsolete("Doesn't work. I blame MS")]
         private static void GenerateMapFromImage(string template)
         {
             Texture2D img = GV.contentManager.Load<Texture2D>(template);
             Color[] colorData = new Color[img.Height * img.Width];
             img.GetData<Color>(colorData);
+
+            GameObjects[,] levelArray = new GameObjects[img.Width, img.Height];
+            //convert 1D to 2D
+            Color c;
+            Tuple<int, int, int> color;
+
+            int cnt = 0;
+            for (int j = 0; j < img.Height; ++j)
+            {
+                for (int i = 0; i < img.Width; ++i)
+                {
+                    c = colorData[i];
+                    color = new Tuple<int, int, int>(c.R, c.G, c.B);
+                    if (translationDictionary.ContainsKey(color))
+                    {
+                        levelArray[i, j] = translationDictionary[color];
+                    }
+                    else
+                    {
+                        levelArray[i, j] = GameObjects.Floor;
+                    }
+                    ++cnt;
+                }
+            }
         }
 
 
@@ -81,7 +115,7 @@ namespace Focus.layers
                     return Color.Magenta;
             }
         }
-        
+
         public Color makeTransparent(Color c, byte a)
         {
             c.A &= a;
@@ -124,6 +158,7 @@ namespace Focus.layers
     }
     public enum GameObjects
     {
+        Floor,
         Wall,
         Obstacle,
         Player,
