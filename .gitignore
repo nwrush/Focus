@@ -47,6 +47,7 @@ x64/
 *.pdb
 *.exe
 *.cache
+*.cachefile
 *.dll
 
 # Visual C++ cache files

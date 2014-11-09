@@ -7,30 +7,46 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Content;
 using Focus.entities;
 
-namespace Focus.scenes {
+namespace Focus.scenes
+{
 
-    class Scene {
+    class Scene
+    {
         List<Entity> entities;
 
 
 
-        public Scene() {
+        public Scene()
+        {
             entities = new List<Entity>();
+            entities.Add(new Player(Vector2.Zero, new Vector2(1f)));
         }
 
-        public virtual void Update() {
-            if (entities.Count != 0) {
-                foreach (Entity e in entities) {
-                    e.Update();
+        public virtual void Update()
+        {
+            if (entities.Count != 0)
+            {
+                List<int> entitiesToRemove = new List<int>();
+                for (int i = 0; i < this.entities.Count; ++i)
+                {
+                    entities[i].Update();
 
-                    //check for e.kill == true
+                    if (entities[i].Dead)
+                        entitiesToRemove.Add(i);
+                }
+                foreach (int i in entitiesToRemove)
+                {
+                    entities.RemoveAt(i);
                 }
             }
         }
 
-        public virtual void Draw(SpriteBatch spriteBatch) {
-            if (entities.Count != 0) {
-                foreach (Entity e in entities) {
+        public virtual void Draw(SpriteBatch spriteBatch)
+        {
+            if (entities.Count != 0)
+            {
+                foreach (Entity e in entities)
+                {
                     e.Draw(spriteBatch);
                 }
             }
@@ -39,11 +55,13 @@ namespace Focus.scenes {
         /// <summary>
         /// Add an entity to the scene
         /// </summary>
-        protected virtual void add(Entity e) {
+        protected virtual void add(Entity e)
+        {
             entities.Add(e);
         }
 
-        protected virtual void remove(Entity e) {
+        protected virtual void remove(Entity e)
+        {
             entities.Remove(e);
         }
     }

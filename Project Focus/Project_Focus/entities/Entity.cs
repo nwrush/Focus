@@ -38,7 +38,6 @@ namespace Focus.entities
         public virtual void Update()
         {
             this.position += this.speed;
-            //implement bounce?
         }
 
         public virtual void Draw(SpriteBatch spriteBatch)

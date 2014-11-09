@@ -111,6 +111,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="entities\Entity.cs" />
+    <Compile Include="entities\Player.cs" />
     <Compile Include="entities\Tile.cs" />
     <Compile Include="globals\GV.cs" />
     <Compile Include="globals\KeyInput.cs" />
