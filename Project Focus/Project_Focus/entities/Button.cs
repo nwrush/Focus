@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Focus.globals;
 
 
@@ -47,6 +48,12 @@ namespace Focus.entities {
                     else {
                         hovered = true;
                     }
+            }
+
+            if (GamePad.GetState(0).IsButtonDown(Buttons.Start))
+            {
+                clicked = true;
+                clickReleased = true;
             }
 
             if (clicked) {

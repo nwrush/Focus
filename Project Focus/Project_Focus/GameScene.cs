@@ -83,22 +83,25 @@ namespace Focus {
         {
             UpdateLayers(gt);
 
-            if (Input.isKeyPressed(Keys.I))
+            GamePadState gpbs = GamePad.GetState(0);
+            if (Input.isKeyPressed(Keys.I) || gpbs.IsButtonDown(Buttons.X))
             {
                 currentLayer = 0;
             }
-            if (Input.isKeyPressed(Keys.O))
+            if (Input.isKeyPressed(Keys.O) || gpbs.IsButtonDown(Buttons.Y))
             {
                 currentLayer = 1;
             }
-            if (Input.isKeyPressed(Keys.K))
+            if (Input.isKeyPressed(Keys.K) || gpbs.IsButtonDown(Buttons.A))
             {
                 currentLayer = 2;
             }
-            if (Input.isKeyPressed(Keys.L))
+            if (Input.isKeyPressed(Keys.L) || gpbs.IsButtonDown(Buttons.B))
             {
                 currentLayer = 3;
             }
+
+
 
             PlayerCollision(layers[currentLayer]);
         }

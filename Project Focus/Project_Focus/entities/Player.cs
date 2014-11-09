@@ -40,6 +40,10 @@ namespace Focus.entities
             {
                 this.position.X += this.speed.X;
             }
+
+            GamePadThumbSticks gpts = GamePad.GetState(0).ThumbSticks;
+            this.position.X += gpts.Left.X;
+            this.position.Y -= gpts.Left.Y;
         }
 
         /*public override Rectangle Size
