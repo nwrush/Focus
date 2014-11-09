@@ -14,8 +14,6 @@ namespace Focus.scenes
     {
         List<Entity> entities;
 
-
-
         public Scene()
         {
             entities = new List<Entity>();
