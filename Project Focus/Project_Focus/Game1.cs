@@ -31,6 +31,7 @@ namespace Focus {
             graphics.PreferredBackBufferWidth = 800;
             graphics.PreferredBackBufferHeight = 600;
             Window.Title = "Focus";
+            this.IsMouseVisible = true;
         }
 
         /// <summary>
