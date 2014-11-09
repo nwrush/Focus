@@ -9,7 +9,6 @@ using Focus.globals;
 
 namespace Focus.layers
 {
-
     class TileLayer : Layer
     {
         static TileLayer()
