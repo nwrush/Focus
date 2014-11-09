@@ -17,6 +17,7 @@ namespace Focus {
         private uint[,] testLevel = { { 0, 1 }, { 2, 3 } };
         private Player player;
         private Effect testEffect;
+        private RenderTarget2D ppBuffer;
 
         public GameScene() {
             layers = new List<TileLayer>();
@@ -54,6 +55,7 @@ namespace Focus {
                         device.PresentationParameters.BackBufferHeight / (2 * ScalingConstant)
                     );
             }
+            ppBuffer = new RenderTarget2D(device, device.PresentationParameters.BackBufferWidth, device.PresentationParameters.BackBufferHeight);
         }
 
         public void setFocusedLayer(int layer) {
@@ -94,6 +96,7 @@ namespace Focus {
                 int width = (device.PresentationParameters.BackBufferWidth / 2);
                 int height = (device.PresentationParameters.BackBufferHeight / 2);
 
+                device.SetRenderTarget(ppBuffer);
                 testEffect.Parameters["Time"].SetValue((float)gt.TotalGameTime.TotalMilliseconds / 1000.0f);
                 sb.Begin(SpriteSortMode.Deferred, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState.CullCounterClockwise, testEffect);
                 sb.Draw(
@@ -108,6 +111,12 @@ namespace Focus {
                 );
                 sb.End();
             }
+
+            device.SetRenderTarget(null);
+
+            sb.Begin();
+            sb.Draw(ppBuffer, device.PresentationParameters.Bounds, Color.White);
+            sb.End();
         }
     }
 }

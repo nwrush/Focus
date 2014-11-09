@@ -86,7 +86,7 @@ namespace Focus {
         protected override void Draw(GameTime gameTime) {
 
 
-            GraphicsDevice.Clear(Color.CornflowerBlue);
+            GraphicsDevice.Clear(Color.Black);
 
             //spriteBatch.Begin();
             currentScene.Draw(gameTime, GraphicsDevice, spriteBatch);

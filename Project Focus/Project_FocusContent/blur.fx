@@ -1,6 +1,8 @@
 float4 DestColor;
 float Time;
 
+#define SAMPLES 8
+
 texture2D ColorMap;
 sampler2D ColorMapSampler = sampler_state
 {
@@ -14,9 +16,13 @@ struct PixelShaderInput
 
 float4 PixelShaderFunction(PixelShaderInput input) : COLOR0
 {
-	float4 srcRGBA = tex2D(ColorMapSampler, input.TexCoord + float2(sin(Time * 2.0f + input.TexCoord.y) * 0.008f, 0));
-	srcRGBA.rgb *= sin(Time * 2.0f + input.TexCoord.y * 16.0f)*0.25f + 0.75f;
-	return srcRGBA;
+	float4 sum = float4(0,0,0,0);
+
+	for (int i = -SAMPLES / 2; i < SAMPLES / 2; ++i) {
+		sum += tex2D(ColorMapSampler, input.TexCoord + float2(i, 0));
+	}
+
+	return sum / SAMPLES;
 }
 
 technique Technique1
