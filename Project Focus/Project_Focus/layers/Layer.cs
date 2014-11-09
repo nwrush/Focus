@@ -9,14 +9,17 @@ using Focus.entities;
 
 namespace Focus.layers
 {
-
     class Layer
     {
         List<Entity> entities;
+        public RenderTarget2D RenderTarget;
+        public Texture2D Buffer;
+        public Color BackgroundColor = Color.Black;
 
         public Layer()
         {
             entities = new List<Entity>();
+
             entities.Add(new Player(Vector2.Zero, new Vector2(1f)));
         }
 
