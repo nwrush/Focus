@@ -39,10 +39,12 @@ namespace Focus.layers
             return result;
         }
 
-        private static Dictionary<string, int> translationDictionary;
-        private static void GenerateMapFromImange(string template)
+        private static Dictionary<GameObjects, int> translationDictionary;
+        private static void GenerateMapFromImage(string template)
         {
-
+            Texture2D img = GV.contentManager.Load<Texture2D>(template);
+            Color[] colorData = new Color[img.Height * img.Width];
+            img.GetData<Color>(colorData);
         }
 
 
