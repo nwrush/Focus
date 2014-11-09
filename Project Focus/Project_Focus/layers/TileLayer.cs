@@ -49,10 +49,10 @@ namespace Focus.layers
         }
 
         private static Dictionary<Tuple<int, int, int>, GameObjects> translationDictionary;
-        [Obsolete("Doesn't work. I blame MS")]
         private static void GenerateMapFromImage(string template)
         {
             Texture2D img = GV.contentManager.Load<Texture2D>(template);
+
             Color[] colorData = new Color[img.Height * img.Width];
             img.GetData<Color>(colorData);
 
@@ -66,7 +66,7 @@ namespace Focus.layers
             {
                 for (int i = 0; i < img.Width; ++i)
                 {
-                    c = colorData[i];
+                    c = colorData[cnt];
                     color = new Tuple<int, int, int>(c.R, c.G, c.B);
                     if (translationDictionary.ContainsKey(color))
                     {
